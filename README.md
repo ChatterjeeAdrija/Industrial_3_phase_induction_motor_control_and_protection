@@ -1,215 +1,246 @@
-# Industrial_3_phase_induction_motor_control_and_protection
-MATLAB/Simulink-based industrial three-phase squirrel-cage induction motor control and protection system featuring DOL starting, RMS overcurrent detection, time-delayed tripping, S-R latch protection, and AutoCAD Electrical schematic design.
-# ⚡ Industrial 3-Phase Induction Motor Control & Protection System
+# Industrial 3-Phase Induction Motor Control and Protection System
 
-A MATLAB/Simulink-based simulation project focused on the control, monitoring, and overload protection of a three-phase squirrel-cage induction motor, supported by an AutoCAD Electrical schematic.
+## 1. Introduction
 
-## 📌 Overview
+Three-phase induction motors are widely used in industrial applications because of their simple construction, reliability and ability to operate under different load conditions. However, abnormal operating conditions such as excessive starting current and sustained overload can affect motor performance and may cause damage if suitable protection is not provided.
 
-Three-phase induction motors are widely used in industrial applications because of their reliability, robustness, and operational efficiency. However, abnormal operating conditions such as excessive starting current and sustained overload can affect motor performance and damage electrical equipment.
+This project focuses on the modelling, control and protection of a three-phase squirrel-cage induction motor using MATLAB/Simulink. A Direct-On-Line (DOL) starting arrangement is implemented along with an overcurrent protection mechanism that monitors the motor current and disconnects the motor when a sustained overcurrent condition is detected.
 
-This project presents the development and simulation of an **Industrial 3-Phase Squirrel-Cage Induction Motor Control & Protection System** using MATLAB/Simulink.
+The project also includes an electrical power and control circuit schematic developed using AutoCAD Electrical.
 
-The system incorporates a Direct-On-Line (DOL) starting arrangement, contactor-based motor control, current monitoring, overcurrent detection, timer-based tripping, and a latching protection mechanism.
+The main objective was to understand the behaviour of an induction motor under different operating conditions and study how a time-delayed protection system responds to variations in motor current and mechanical load.
 
-An accompanying electrical schematic was developed using AutoCAD Electrical to represent the power and control circuits.
+## 2. Project Objectives
 
-The project focuses on understanding motor starting behaviour, overload characteristics, protection coordination, and control circuit operation through simulation-based testing.
-
-## 🎯 Objectives
-
-- Model a three-phase squirrel-cage induction motor in MATLAB/Simulink.
-- Implement a Direct-On-Line (DOL) motor starting arrangement.
-- Analyse motor starting current and steady-state operating conditions.
-- Develop an overcurrent protection mechanism using RMS current measurement.
+- Develop a three-phase squirrel-cage induction motor model in MATLAB/Simulink.
+- Implement a DOL starting arrangement using a three-phase contactor.
+- Monitor motor current using RMS measurement.
+- Develop an overcurrent detection mechanism using a predefined pickup threshold.
 - Implement time-delayed tripping using an ON-delay timer.
 - Use an S-R latch to maintain the trip condition.
-- Evaluate motor response under different mechanical load conditions.
-- Develop the corresponding power and control circuit schematic using AutoCAD Electrical.
+- Analyse motor response under different mechanical load conditions.
+- Verify the protection logic through simulation-based test cases.
+- Develop the corresponding electrical power and control circuit using AutoCAD Electrical.
 
-## ⚙️ System Specifications
+## 3. Software and Tools
 
-### Induction Motor Parameters
+| Software / Tool | Application |
+|---|---|
+| MATLAB R2021a | Simulation environment |
+| Simulink | Motor modelling and control logic |
+| Simscape Electrical / Specialized Power Systems | Electrical system modelling |
+| AutoCAD Electrical | Power and control circuit schematic |
+| Microsoft Excel | Test case documentation |
+| GitHub | Project documentation and version control |
+
+## 4. Motor Specifications
+
+The following parameters were used in the working simulation model.
 
 | Parameter | Value |
 |---|---:|
-| Motor Type | 3-Phase Squirrel-Cage Induction Motor |
-| Rated Apparent Power | 15 kVA |
-| Rated Voltage | 220 V |
-| Supply Frequency | 60 Hz |
-| Number of Poles | 2 |
-| Number of Pole Pairs | 1 |
-| Stator Resistance (Rs) | 0.25 Ω |
-| Stator Leakage Reactance (Xls) | 0.40 Ω |
-| Rotor Resistance (Rr') | 0.14 Ω |
-| Rotor Leakage Reactance (Xlr') | 0.41 Ω |
-| Magnetising Reactance (Xm) | 17 Ω |
-| Moment of Inertia (J) | 0.01 kg·m² |
+| Motor type | Three-phase squirrel-cage induction motor |
+| Rated apparent power | 15 kVA |
+| Rated voltage | 220 V |
+| Supply frequency | 60 Hz |
+| Number of poles | 2 |
+| Number of pole pairs | 1 |
+| Stator resistance (Rs) | 0.25 Ω |
+| Stator leakage reactance (Xls) | 0.40 Ω |
+| Rotor resistance (Rr') | 0.14 Ω |
+| Rotor leakage reactance (Xlr') | 0.41 Ω |
+| Magnetising reactance (Xm) | 17 Ω |
+| Moment of inertia (J) | 0.01 kg·m² |
 
-### Protection and Control Parameters
+## 5. System Description
 
-| Parameter | Configuration |
-|---|---|
-| Starting Method | Direct-On-Line (DOL) |
-| Current Measurement | RMS Current Measurement |
-| Protection Element | Overcurrent Relay Logic |
-| Trip Mechanism | ON-Delay Timer |
-| Timer OFF Delay | 0 s |
-| Latching Mechanism | S-R Flip-Flop |
-| Switching Element | Three-Phase Contactor |
-| Motor Disconnection | Contactor De-energisation |
+The system consists of a three-phase induction motor, a DOL starter, current measurement blocks, an overcurrent detection unit, a timer and a latching protection mechanism.
 
-## 🔌 Working Principle
-
-The system operates through the following stages:
-
-### 1. Motor Starting
+### 5.1 Motor Starting Circuit
 
 The motor is connected to the three-phase supply through a circuit breaker and a three-pole contactor.
 
-When the START pushbutton is pressed, the contactor coil energises and closes the main contacts, allowing the motor to start.
+When the START pushbutton is pressed, the contactor coil energises and closes its three main normally open contacts. This connects the motor to the supply.
 
-A normally open auxiliary contact provides the holding (self-latching) arrangement.
+An auxiliary normally open contact is used to provide a holding arrangement, allowing the contactor to remain energised after the START pushbutton is released.
 
-### 2. Current Monitoring
+The STOP pushbutton is normally closed and is used to interrupt the contactor control circuit.
 
-The motor current is continuously monitored through current measurement blocks.
+### 5.2 Current Measurement
 
-The measured current is converted into an RMS value and compared against a predefined pickup threshold.
+The motor current is continuously monitored using current measurement blocks.
 
-### 3. Overcurrent Detection
+The measured current is processed through an RMS calculation block. The resulting RMS value is compared with a predefined current pickup threshold.
 
-When the measured RMS current exceeds the selected pickup threshold, the protection logic initiates the ON-delay timer.
+### 5.3 Overcurrent Detection
 
-The timer allows short-duration current variations while identifying sustained overcurrent conditions.
+When the measured RMS current exceeds the selected pickup threshold, the overcurrent detection logic initiates the ON-delay timer.
 
-### 4. Time-Delayed Tripping
+The time delay prevents immediate operation of the protection mechanism during short-duration current variations.
 
-If the overcurrent condition persists beyond the configured ON-delay, the S-R latch receives the trip signal.
+If the overcurrent condition persists for the configured delay, a trip signal is generated.
 
-The latch maintains the trip state even if the measured current subsequently falls below the threshold.
+### 5.4 Time-Delayed Tripping
 
-### 5. Motor Disconnection
+The timer output operates the trip logic through an S-R flip-flop.
 
-The trip signal operates the contactor control logic.
+The timer's normally closed timed contact is used in the contactor control circuit. When the timer operates, this contact opens and interrupts the KM1 contactor coil circuit.
 
-The KM1 contactor coil de-energises, opening all three main power contacts and disconnecting the induction motor from the supply.
+As a result, the contactor de-energises and disconnects the motor from the three-phase supply.
 
-The system requires a reset operation before restarting after a latched trip.
+### 5.5 S-R Latch Operation
 
-## 🧠 Protection Logic
+An S-R latch is used to retain the trip condition.
 
-The protection system follows the sequence:
+Once the trip signal is generated, the latch output remains HIGH even if the motor current subsequently falls below the pickup threshold.
+
+The system therefore requires a reset operation before normal restarting.
+
+## 6. Protection Logic
+
+The protection sequence implemented in Simulink is:
 
 **Current Measurement → RMS Calculation → Threshold Comparison → ON-Delay Timer → S-R Latch → Contactor Trip**
 
-The overcurrent condition is represented by:
+The overcurrent detection condition is:
 
 `I_RMS > I_pickup`
 
-The timer allows the overcurrent condition to persist for the configured delay before initiating the trip.
+The timer operates only when the overcurrent condition persists for the configured delay.
 
 The S-R latch maintains the trip output until reset.
 
-Two different pickup configurations were investigated during simulation:
+Two different pickup settings were investigated during the simulation.
 
-- **6 A RMS:** Used for initial protection characterisation and overload threshold investigation.
-- **9 A RMS:** Used for a separate series of tests with the corrected 220 V source configuration.
+| Test Series | Pickup Threshold | Purpose |
+|---|---:|---|
+| Initial characterisation | 6 A RMS | Starting and overload response analysis |
+| Corrected voltage configuration | 9 A RMS | Motor response under different mechanical loads |
 
-These configurations are separate simulation test series and should not be interpreted as a single validated physical relay setting.
+These are separate simulation configurations. The pickup values are model-specific settings used to demonstrate protection behaviour and are not validated physical relay settings.
 
-## 🧪 Simulation and Test Cases
+## 7. Simulation and Test Results
 
-A total of **17 numbered test cases were completed**, covering motor starting, overload response, trip characteristics, and latch operation.
+A total of 17 numbered test cases were completed. The tests were divided into four groups to study different aspects of motor operation and protection.
 
-### Test Series 1 — Starting Behaviour
+### 7.1 Test Series 1: Motor Starting Behaviour
 
-Configuration: 6 A RMS pickup threshold.
+Configuration:
+
+- Current pickup: 6 A RMS
+- S-R latch protection
+- OFF delay: 0 s
 
 | Test Case | ON Delay | Observation | Result |
 |---|---:|---|---|
 | TC-01 | 0.30 s | Protection operated during motor starting | TRIP |
 | TC-02 | 0.50 s | Motor successfully reached normal speed | NO TRIP |
-| TC-03 | 0.45 s | Normal starting operation; steady current ≈ 4.07 A | NO TRIP |
+| TC-03 | 0.45 s | Normal starting operation; steady-state current approximately 4.07 A | NO TRIP |
 
-**Observation:** The starting-delay tests demonstrate the importance of selecting an appropriate time delay to avoid unwanted tripping during motor acceleration.
+**Observation:**
 
-### Test Series 2 — Overload Characterisation
+The tests demonstrate the effect of timer settings on motor starting behaviour. A shorter delay resulted in unwanted tripping during starting, whereas longer delays allowed the motor to accelerate successfully.
+
+### 7.2 Test Series 2: Overload Characterisation
 
 Configuration:
+
 - Current pickup: 6 A RMS
 - ON delay: 0.45 s
 - OFF delay: 0 s
-- Mechanical load applied at 1 s
+- Mechanical load application time: 1 s
 
 | Test Case | Mechanical Load | Observation | Result |
 |---|---:|---|---|
-| TC-04 | −5.00 N·m | Sustained overload | TRIP |
-| TC-05 | −1.00 N·m | Current ≈ 4.45 A | NO TRIP |
+| TC-04 | −5.00 N·m | Sustained overload condition | TRIP |
+| TC-05 | −1.00 N·m | Current approximately 4.45 A | NO TRIP |
 | TC-06 | −3.00 N·m | Current exceeded 6 A | TRIP |
-| TC-07 | −2.00 N·m | Current ≈ 5.51 A | NO TRIP |
+| TC-07 | −2.00 N·m | Current approximately 5.51 A | NO TRIP |
 | TC-08 | −2.50 N·m | Current exceeded 6 A | TRIP |
-| TC-09 | −2.25 N·m | Current ≈ 5.845 A | NO TRIP |
-| TC-10 | −2.35 N·m | Current ≈ 5.985 A | NO TRIP |
+| TC-09 | −2.25 N·m | Current approximately 5.845 A | NO TRIP |
+| TC-10 | −2.35 N·m | Current approximately 5.985 A | NO TRIP |
 | TC-11 | −2.40 N·m | Current exceeded 6 A | TRIP |
 | TC-12 | −2.375 N·m | Current exceeded 6 A | TRIP |
 
-**Key Observation:**
+**Observation:**
 
-The simulated trip boundary was observed between:
+The simulation showed a trip boundary between −2.35 N·m and −2.375 N·m for the selected model configuration.
 
-- −2.35 N·m: NO TRIP
-- −2.375 N·m: TRIP
+At −2.35 N·m, the motor continued operating without tripping. At −2.375 N·m, the protection mechanism operated.
 
-This boundary applies only to the recorded simulation configuration.
+This boundary represents the observed behaviour of the simulation and should not be treated as a universal motor overload limit.
 
-### Test Series 3 — S-R Latch Verification
+### 7.3 Test Series 3: S-R Latch Verification
 
-| Test Case | Test Condition | Observation | Result |
-|---|---|---|---|
-| TC-13 | −5 N·m load at 1 s | Trip output changed to logic HIGH at approximately 1.6 s and remained HIGH after current returned to zero | PASS |
+| Test Case | Mechanical Load | Observation | Result |
+|---|---:|---|---|
+| TC-13 | −5 N·m at 1 s | Trip output changed to logic HIGH at approximately 1.6 s and remained HIGH after the current returned to zero | PASS |
 
-**Key Observation:**
+**Observation:**
 
-The S-R latch successfully maintained the trip condition after the overcurrent event, confirming that the protection output did not automatically reset when the current decreased.
+The S-R latch successfully retained its trip state after the overcurrent event.
 
-### Test Series 4 — Corrected 220 V Supply Configuration
+Even after the measured current decreased, the latch output remained HIGH until reset. This verified the intended latching behaviour of the protection logic.
+
+### 7.4 Test Series 4: Corrected 220 V Supply Configuration
 
 Configuration:
+
 - Source voltage: 220 V line-to-line RMS
 - Current pickup: 9 A RMS
 - ON delay: 0.45 s
 - OFF delay: 0 s
 - Load application time: 1 s for loaded tests
 
-| Test Case | Mechanical Load | Current | Result |
+| Test Case | Mechanical Load | Measured Current | Result |
 |---|---:|---:|---|
 | TC-14 | 0 N·m | 7.28 A | NO TRIP |
 | TC-15 | −1 N·m | 7.34 A | NO TRIP |
 | TC-16 | −3 N·m | 7.88 A | NO TRIP |
 | TC-17 | −5 N·m | 8.928 A | NO TRIP |
 
-**Key Observation:**
+**Observation:**
 
-Even under a mechanical load of −5 N·m, the measured current reached approximately 8.928 A, remaining below the configured 9 A pickup threshold.
+The measured current increased with the applied mechanical load.
 
-Therefore, the protection system did not initiate a trip, and the motor continued operating at approximately 1 pu rotor speed.
+In TC-17, the current reached approximately 8.928 A under a mechanical load of −5 N·m. Since this value remained below the selected 9 A pickup threshold, the protection system did not initiate a trip.
 
-## 📊 Overall Test Summary
+The rotor speed remained approximately 1 pu.
 
-| Category | Count |
-|---|---:|
-| Total Completed Numbered Test Cases | 17 |
-| TRIP Results | 6 |
-| NO TRIP Results | 10 |
-| S-R Latch Verification | 1 PASS |
+## 8. Overall Test Summary
 
-The test register includes the individual test conditions, pickup thresholds, timer settings, observations, and outcomes.
+| Test Category | Completed Tests | Result |
+|---|---:|---|
+| Starting behaviour | 3 | 2 NO TRIP, 1 TRIP |
+| Overload characterisation | 9 | 5 TRIP, 4 NO TRIP |
+| S-R latch verification | 1 | PASS |
+| Corrected 220 V configuration | 4 | 4 NO TRIP |
+| **Total** | **17** | **6 TRIP, 10 NO TRIP, 1 PASS** |
 
-## 📁 Project Structure
+The test cases demonstrate the response of the motor and protection logic under different starting delays, pickup thresholds and mechanical load conditions.
+
+## 9. AutoCAD Electrical Schematic
+
+An electrical schematic was developed using AutoCAD Electrical to represent the power and control circuits of the system.
+
+The schematic includes:
+
+- Three-phase supply.
+- Three-pole circuit breaker (CB1).
+- Current transformers (CT1, CT2 and CT3).
+- Three-pole main contactor (KM1).
+- START and STOP pushbuttons.
+- Contactor auxiliary holding contact.
+- Overcurrent relay functional block (OCR1) and its output contact.
+- ON-delay timer (KT1) and normally closed timed contact.
+- Three-phase induction motor (M1).
+
+The drawing separates the power and control circuits to make the system connections and protection sequence easier to follow.
+
+## 10. Repository Structure
 
 ```text
-Induction_Motor_Control_Protection_Project/
+Industrial-3-Phase-Induction-Motor-Control-and-Protection/
 │
 ├── README.md
 │
@@ -224,58 +255,58 @@ Induction_Motor_Control_Protection_Project/
     └── test_case_register.xlsx
 ```
 
-*The filenames above represent the intended repository organisation. Add the actual model and drawing files before publishing the final repository.*
+The filenames represent the intended folder structure. Actual model and drawing filenames should be used when uploading the project files.
 
-## 💻 Software and Tools Used
+## 11. Key Learning Outcomes
 
-- MATLAB R2021a
-- Simulink
-- Simscape Electrical / Specialized Power Systems
-- AutoCAD Electrical
-- Microsoft Excel
-- Git and GitHub
+Working on this project provided practical exposure to:
 
-## 📈 Key Learning Outcomes
-
-Through this project, the following concepts and practical skills were explored:
-
-- Three-phase induction motor modelling and analysis.
-- DOL motor starting and contactor control.
+- Three-phase induction motor modelling.
+- DOL starting and contactor-based motor control.
 - RMS current measurement and overcurrent detection.
-- Timer-based protection and trip coordination.
+- Timer-based protection logic.
 - S-R latch implementation and verification.
-- Motor response under varying mechanical loads.
-- Electrical control and power circuit schematic development.
-- Simulation-based testing and result documentation.
-- Technical documentation and version-controlled project organisation.
+- Motor response under varying mechanical load conditions.
+- Electrical power and control circuit design.
+- Simulation-based testing and result analysis.
+- Technical documentation and GitHub project organisation.
 
-## 🚀 Future Scope
+## 12. Limitations and Future Scope
 
-The project can be extended through:
+### Limitations
 
-- Implementation of a thermal overload protection model.
-- Short-circuit and phase-loss protection.
-- Ground-fault detection.
-- Integration of an actual microcontroller-based protection unit.
+- The system has been developed and tested in a simulation environment.
+- The protection pickup settings are demonstration values specific to the model configuration.
+- The system has not been validated using a physical induction motor test bench.
+- Practical implementation would require appropriate CT selection, relay coordination, equipment ratings and hardware testing.
+
+### Future Scope
+
+The project can be extended by incorporating:
+
+- Thermal overload protection.
+- Phase failure and phase imbalance detection.
+- Short-circuit protection.
+- Earth-fault protection.
+- Microcontroller-based motor protection.
+- Real-time motor monitoring.
 - Hardware-in-the-loop testing.
-- Comparison of simulated protection behaviour with practical relay characteristics.
-- Development of an industrial monitoring interface using SCADA concepts.
+- Integration with a SCADA-based monitoring system.
 
-## ⚠️ Project Limitations
+## 13. Conclusion
 
-- The protection system is a simulation-based implementation.
-- The pickup thresholds used in the test series are model-specific demonstration settings, not validated physical relay settings.
-- The results have not been validated through a physical induction motor test bench.
-- Practical implementation would require proper relay coordination, equipment ratings, CT selection, and hardware testing.
+This project demonstrates the modelling and simulation of a three-phase squirrel-cage induction motor with a DOL starting arrangement and a time-delayed overcurrent protection system.
 
-## 👩‍💻 Author
+Different simulation conditions were used to study motor starting behaviour, overload response and trip characteristics. The S-R latch verification confirmed that the protection logic could maintain its trip state after an overcurrent event.
 
-**Electrical Engineering Student**
+The accompanying AutoCAD Electrical schematic provides a representation of the power and control circuits used in the system.
 
-Techno Main Salt Lake
+Overall, the project provided practical experience in induction motor modelling, electrical protection logic, simulation-based testing and electrical schematic development.
 
-Project: Industrial 3-Phase Induction Motor Control & Protection System
+## Author
 
----
+ADRIJA 
+Techno Main Salt Lake  
+Kolkata, West Bengal, India
 
-*This project was developed as an academic engineering project to explore induction motor control, electrical protection, simulation, and schematic design.*
+**Project:** Industrial 3-Phase Induction Motor Control and Protection System
